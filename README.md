@@ -1,13 +1,16 @@
 # news-research
 
-Who trades news first? Cross-venue taker tapes around news events: Hyperliquid perps, Kalshi and Polymarket (polymarket.com). Polymarket US is left out: it publishes no trade tape.
+cross-venue taker tapes for when Jensen Huang got reinstated as the CEO of $NVDA
+- tradexyz @ HL
+- kalshi
+- polymarket
 
-## Findings
+## findings
 | Event | Finding |
 |---|---|
-| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/2026-11-23-jensen.md) | Hyperliquid `xyz:NVDA` long-taker buying began at 8:55:41.1 ET, 7.3 s before Kalshi's first burst and 11.9 s before Polymarket's first fill. Whether HL was the trigger needs a set of events. |
+| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/2026-11-23-jensen.md) | `xyz:NVDA` long-taker BUY began at 8:55:41.1 ET, 7.3s before Kalshi's first burst and 11.9s before Polymarket's first fill.
 
-## Layout
+## layout
 ```
 events/              one TOML per event: window, markets, reference timestamps, burst thresholds
 src/newsflow/        library: one module per venue (fetch raw + normalize), pipeline, analysis, CLI
@@ -18,8 +21,8 @@ reports/             written findings; reports/figures/ holds their charts
 tests/               normalization and paging rules
 ```
 
-## Reproduce
-Needs [uv](https://docs.astral.sh/uv/). Dependencies are pinned in `uv.lock`.
+## reproduce
+needs [uv](https://docs.astral.sh/uv/). dependencies pinned in `uv.lock`.
 
 ```sh
 make all                                    # fetch -> process -> figures -> notebooks
@@ -32,5 +35,5 @@ make test
 | Venue | History available after the fact |
 |---|---|
 | Kalshi | full public tape; trades older than the archive cutoff come from `/historical/trades` |
-| Polymarket | full on-chain taker tape (block time, ~1–3 s after the match) |
-| Hyperliquid | Ironflow (third-party indexer): 24 h back without a key. Each pull is checked against Hyperliquid's own candles and per-wallet fills (`newsflow.verify`). S3 archive (`hyperliquid.source = "s3"`): first-party, everything since Jul 2025, carries the taker flag; needs AWS credentials, `aws` CLI and `lz4` |
+| Polymarket | full on-chain tape (block time, ~1–3 s after the match) |
+| Hyperliquid | Ironflow (third-party indexer): each pull cross-matched against Hyperliquid's candles and per-wallet fills (`newsflow.verify`). S3 archive (`hyperliquid.source = "s3"`): first-party, carries the taker flag; AWS credentials needed, `aws` CLI and `lz4` |
