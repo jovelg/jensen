@@ -4,7 +4,6 @@ cross-venue taker tapes for that time when Jensen Huang got reinstated as the CE
 - tradexyz @ hyperliquid
 - kalshi
 - polymarket
-- pascal
 
 ## findings
 | Event | Finding |
@@ -35,5 +34,5 @@ make all EVENT=events/<name>.toml           # another event
 |---|---|
 | Kalshi | full public tape; trades older than the archive cutoff come from `/historical/trades` |
 | Polymarket | full on-chain tape (block time, ~1–3 s after the match) |
-| Pascal | full public tape: matching-engine ms timestamps, explicit taker side, maker and taker wallets; no key |
+| Pascal | full public tape: matching-engine ms timestamps, explicit taker side, maker and taker wallets; no key. Supported (`[pascal]` in an event config); left out of the Jensen study because its books were too thin to matter (4 trades in the window) |
 | Hyperliquid | Ironflow (third-party indexer): each pull cross-matched against Hyperliquid's candles and per-wallet fills (`newsflow.verify`). S3 archive (`hyperliquid.source = "s3"`): first-party, carries the taker flag; AWS credentials needed, `aws` CLI and `lz4` |

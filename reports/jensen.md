@@ -9,7 +9,6 @@
 - **X was slower than both.** First posts 8:55:51.5 per PM Pulse (+10.5 s; post not identified); the earliest post we could verify is @DeItaone at 8:56:16.1 (+35 s).
 - **Polymarket's first burst landed at 8:55:53** (50,980 YES at 12.4¢), 12 s after the release. One small fill came earlier: 1,030 YES at 3.3¢ ($34) on Nov 30 at 8:55:50 (+9 s). Both are block times; the actual matches were ~1–3 s earlier.
 - **Kalshi's 7.4 s is its first real reaction, not its first fill.** Two small YES fills printed at 8:55:43.9–44.0 (+2.9 s, $262 together at 17¢), but that market printed 9 fills in the 101 s before the release, so they can't be told apart from background trading.
-- **Pascal barely traded it.** Its first trade after the release was 169 YES at 59.3¢ ($100) on "Next CEO = Jensen" at 8:56:11.494 (+30.5 s); it had 4 trades in the whole 8:54–8:58 window. Its rejoin markets, which mirror Polymarket's, had none.
 - **The Hyperliquid data matches Hyperliquid's own API exactly** (section "Is the Hyperliquid data right?"). The one inferred piece, which side was the taker, agrees with Hyperliquid's own flag on 94.4% of checked fills and on 100% around the first burst.
 - **HL didn't front-run the news; it was the fastest reader of it.** Whether Kalshi's takers trade off HL or off the wire can't be told from one event: either way they were 7 s behind. Separating the two needs a set of events (see Next steps).
 
@@ -43,7 +42,6 @@ Scheduled releases land exactly on :00; unscheduled ones carry the second they w
 | 8:55:50 | Polymarket first fill, $34 (block time) | +9 s |
 | 8:55:51.5 | First X posts (PM Pulse) | +10.5 s |
 | 8:55:53 | Polymarket first burst (block time) | +12 s |
-| 8:56:11.494 | Pascal first trade ($100) | +30.5 s |
 | 8:56:16.132 | X @DeItaone | +35 s |
 | 8:57:54 | EDGAR 8-K accepted | +2 m 13 s |
 | 8:58:03.139 | X @nvidianewsroom | +2 m 22 s |
@@ -60,7 +58,6 @@ A burst is a bucket where YES/long taker buying reaches HL $100k per 0.5 s, Kals
 | 8:55:53 | Polymarket rejoin by Dec 31 2026 (`0x3e03ea…`) | 50,980 contracts ($6.3k) | 12.4¢ | +12.0 s |
 | 8:55:57.902 | Kalshi next employer = Nvidia | 71,081 contracts ($8.7k) | 10–15¢ | +16.9 s |
 | 8:56:04 | Polymarket rejoin by Dec 31 2027 | 6,153 contracts ($2.5k) | 40–42¢ | +23.0 s |
-| 8:56:11.494 | Pascal next CEO = Jensen | 169 contracts ($100) | 59.3¢ | +30.5 s |
 | 8:56:14 | Polymarket rejoin by Nov 30 2026 | 29,243 contracts ($14.6k) | 50¢ | +33.0 s |
 | 8:56:43 | Polymarket rejoin by Mar 31 2027 | 2,608 contracts ($2.3k) | 88¢ | +62.0 s |
 
@@ -102,8 +99,7 @@ The HL fills come from Ironflow, a third-party indexer, because Hyperliquid's AP
 - **Sources:**
   - Hyperliquid fills via Ironflow `/v1/trades`, verified against Hyperliquid's candles and `userFillsByTime`;
   - Kalshi `/markets/trades` (switching to `/historical/trades` before the archive cutoff);
-  - Polymarket gamma event plus data API v2 taker trades;
-  - Pascal `data.pascal.trade/api/v1/trades` (matching-engine ms timestamps, explicit taker side, both wallets).
+  - Polymarket gamma event plus data API v2 taker trades.
 - **Polymarket US is excluded.** It publishes no trade tape, only about one display price a minute.
 - **One row format:** every source becomes one row per fill, taker side only. For binaries, `side` is YES exposure and `usd` is the taker's cash at risk; for HL, `usd` is notional. Rules: `src/newsflow/rows.py`.
 - **HL taker side:** Ironflow doesn't flag which side took liquidity. Of a trade's two legs, the one with the newer order id is treated as the taker (94.4% right; see above).
