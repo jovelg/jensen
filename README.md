@@ -8,7 +8,7 @@ cross-venue taker tapes for that time when Jensen Huang got reinstated as the CE
 ## findings
 | Event | Finding |
 |---|---|
-| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/jensen.md) | GlobeNewswire published at 8:55:41 ET (page shows "08:55"). `xyz:NVDA` long-taker BUY hit in the same second; Kalshi's first burst 7.4s after the release, first X posts 10.5s, Polymarket's first fill 12s.
+| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/jensen.md) | GlobeNewswire published at 8:55:41 ET (page shows "08:55"). `xyz:NVDA` long-taker BUY hit in the same second; Kalshi's first burst 7.4s after the release, first X posts 10.5s, Polymarket's first burst 12s (a $34 fill at 9s).
 
 ## layout
 ```

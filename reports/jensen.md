@@ -7,7 +7,8 @@
 - **Hyperliquid reacted in the same second.** Wallet [`0x25773676902085225ae5751075e4161369334897`](https://app.hyperliquid.xyz/explorer/address/0x25773676902085225ae5751075e4161369334897) swept the `xyz:NVDA` ask at 8:55:41.362 and bought $2.96M in the first 10 s. GlobeNewswire publishes only to the second, so whether the sweep came a few hundred ms before or after publication can't be told.
 - **Kalshi followed 7.4 s after the release** with 280,157 YES at 17–18¢ on "next CEO = Jensen" (8:55:48.399). HL NVDA was already up about 2% by then.
 - **X was slower than both.** First posts 8:55:51.5 per PM Pulse (+10.5 s; post not identified); the earliest post we could verify is @DeItaone at 8:56:16.1 (+35 s).
-- **Polymarket's first fill landed at 8:55:53** (block time; the actual match was ~1–3 s earlier), 12 s after the release.
+- **Polymarket's first burst landed at 8:55:53** (50,980 YES at 12.4¢), 12 s after the release. One small fill came earlier: 1,030 YES at 3.3¢ ($34) on Nov 30 at 8:55:50 (+9 s). Both are block times; the actual matches were ~1–3 s earlier.
+- **Kalshi's 7.4 s is its first real reaction, not its first fill.** Two small YES fills printed at 8:55:43.9–44.0 (+2.9 s, $262 together at 17¢), but that market printed 9 fills in the 101 s before the release, so they can't be told apart from background trading.
 - **The Hyperliquid data matches Hyperliquid's own API exactly** (section "Is the Hyperliquid data right?"). The one inferred piece, which side was the taker, agrees with Hyperliquid's own flag on 94.4% of checked fills and on 100% around the first burst.
 - **HL didn't front-run the news; it was the fastest reader of it.** Whether Kalshi's takers trade off HL or off the wire can't be told from one event: either way they were 7 s behind. Separating the two needs a set of events (see Next steps).
 
@@ -38,8 +39,9 @@ Scheduled releases land exactly on :00; unscheduled ones carry the second they w
 | 8:55:41 | GlobeNewswire publishes | 0 |
 | 8:55:41.362 | HL `xyz:NVDA` sweep | same second |
 | 8:55:48.399 | Kalshi first burst | +7.4 s |
+| 8:55:50 | Polymarket first fill, $34 (block time) | +9 s |
 | 8:55:51.5 | First X posts (PM Pulse) | +10.5 s |
-| 8:55:53 | Polymarket first fill (block time) | +12 s |
+| 8:55:53 | Polymarket first burst (block time) | +12 s |
 | 8:56:16.132 | X @DeItaone | +35 s |
 | 8:57:54 | EDGAR 8-K accepted | +2 m 13 s |
 | 8:58:03.139 | X @nvidianewsroom | +2 m 22 s |
