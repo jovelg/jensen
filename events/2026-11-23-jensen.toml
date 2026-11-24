@@ -4,9 +4,9 @@ start = "2026-11-23T13:54:00Z"   # 8:54 ET
 end = "2026-11-23T13:58:00Z"
 utc_offset = -5                  # display times in ET (EST)
 
-[marks]
-"Press release minute" = "2026-11-23T13:55:00Z"   # GlobeNewswire, stamped to the minute
-"First X posts" = "2026-11-23T13:55:51.5Z"        # PM Pulse, decoded from post IDs
+[marks]   # evidence: data/raw/<event>/release-timing.json.gz
+"GlobeNewswire published" = "2026-11-23T13:55:41Z"   # og:article:published_time; the page shows "08:55 ET"
+"First X posts" = "2026-11-23T13:55:51.5Z"            # PM Pulse, decoded from post ids (post not identified)
 
 [hyperliquid]
 # io:NVDA also traded this window (the same lead wallet hit it at 8:55:46), but its raw records were

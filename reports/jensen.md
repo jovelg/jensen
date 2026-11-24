@@ -1,30 +1,61 @@
 # Jensen Huang reinstated as NVIDIA CEO: who clicked first?
 
-*Event: 2026-11-23, NVIDIA release on GlobeNewswire stamped 8:55 AM ET. Evidence: [`notebooks/01-jensen-reinstatement.ipynb`](../notebooks/01-jensen-reinstatement.ipynb). All times ET.*
+*Event: 2026-11-23, NVIDIA release published on GlobeNewswire at 8:55:41 AM ET (the page displays "08:55 ET"). Evidence: [`notebooks/jensen.ipynb`](../notebooks/jensen.ipynb). All times ET.*
 
 ## Summary
-- **Hyperliquid moved first.** Long-taker buying in the `xyz:NVDA` perp started at 8:55:41.1. Wallet `0x25773676…` swept the ask from 8:55:41.362 and bought $2.96M in the first 10 s.
-- **Kalshi followed 7.3 s later** with 280,157 YES at 17–18¢ on "next CEO = Jensen" (8:55:48.399). HL NVDA was already up about 2% by then.
-- **Polymarket's first fill landed at 8:55:53** (block time; the actual match was ~1–3 s earlier), 11.9 s after HL and 1.5 s after the first X posts.
+- **The release went out at 8:55:41, not 8:55:00.** GlobeNewswire's page shows only the minute; its metadata carries the second. The ~41 s "gap" between the 8:55 stamp and the first trades was that rounding.
+- **Hyperliquid reacted in the same second.** Wallet `0x25773676…` swept the `xyz:NVDA` ask at 8:55:41.362 and bought $2.96M in the first 10 s. GlobeNewswire publishes only to the second, so whether the sweep came a few hundred ms before or after publication can't be told.
+- **Kalshi followed 7.4 s after the release** with 280,157 YES at 17–18¢ on "next CEO = Jensen" (8:55:48.399). HL NVDA was already up about 2% by then.
+- **X was slower than both.** First posts 8:55:51.5 per PM Pulse (+10.5 s; post not identified); the earliest post we could verify is @DeItaone at 8:56:16.1 (+35 s).
+- **Polymarket's first fill landed at 8:55:53** (block time; the actual match was ~1–3 s earlier), 12 s after the release.
 - **The Hyperliquid data matches Hyperliquid's own API exactly** (section "Is the Hyperliquid data right?"). The one inferred piece, which side was the taker, agrees with Hyperliquid's own flag on 94.4% of checked fills and on 100% around the first burst.
-- **This event can't show whether HL was the trigger.** HL leading is equally consistent with everyone reading the same wire and HL's bots being fastest. Separating the two needs a set of events (see Next steps).
+- **HL didn't front-run the news; it was the fastest reader of it.** Whether Kalshi's takers trade off HL or off the wire can't be told from one event: either way they were 7 s behind. Separating the two needs a set of events (see Next steps).
 
 ![Taker flow on one clock, 8:55:31–8:56:31, with burst callouts](figures/2026-11-23-jensen-zoom.png)
 
 Each callout is one burst: size, price range, cash risked → payout at $1 (binaries), or long notional and the top wallet's share (HL). Panel titles carry the window totals. Kalshi's callouts line up with the PM Pulse chart (280K at 17–18¢, 459K at 59–66¢). Their 389K at 21–33¢ shows here as 399K at 20–33¢ because the 0.5 s buckets are cut differently.
 
+## When did the release actually go out?
+GlobeNewswire's page shows "November 23, 2026 08:55 ET". Its `og:article:published_time` and JSON-LD `datePublished` say **2026-11-23T13:55:41Z**. NVIDIA's other GlobeNewswire releases show how to read that:
+
+| Release | Published (ET) | Kind |
+|---|---|---|
+| Q3 earnings | 11-17 16:20:00 | scheduled |
+| Financial community event | 11-19 17:00:00 | scheduled |
+| Three product releases | 11-16 11:00:00 | scheduled |
+| Board statement | 11-10 14:07:46 | unscheduled |
+| CEO transition | 11-12 08:48:12 | unscheduled |
+| **Jensen reinstated** | **11-23 08:55:41** | unscheduled |
+
+Scheduled releases land exactly on :00; unscheduled ones carry the second they were pushed. So 8:55:41 is the real send time. NVIDIA's newsroom RSS and its IR site both show the release at 8:55:00, the minute only.
+
+| ET | Source | After the release |
+|---|---|---|
+| 8:55:41 | GlobeNewswire publishes | 0 |
+| 8:55:41.362 | HL `xyz:NVDA` sweep | same second |
+| 8:55:48.399 | Kalshi first burst | +7.4 s |
+| 8:55:51.5 | First X posts (PM Pulse) | +10.5 s |
+| 8:55:53 | Polymarket first fill (block time) | +12 s |
+| 8:56:16.132 | X @DeItaone | +35 s |
+| 8:57:54 | EDGAR 8-K accepted | +2 m 13 s |
+| 8:58:03.139 | X @nvidianewsroom | +2 m 22 s |
+
+X times are decoded from post ids, which embed the creation time in ms. GlobeNewswire returns 403 to scripted clients, so its pages were captured with a real browser. All of it is in `data/raw/2026-11-23-jensen/release-timing.json.gz`.
+
 ## Timeline: first burst per market
 A burst is a bucket where YES/long taker buying reaches HL $100k per 0.5 s, Kalshi $5k per 0.5 s, or Polymarket $2k per 1 s.
 
-| ET | Market | Size | Price | vs first HL burst |
+| ET | Market | Size | Price | vs release (8:55:41) |
 |---|---|---|---|---|
-| 8:55:41.068 | HL `xyz:NVDA` (`0x25773676…`) | $239k | 135.9–136.0 | 0 |
-| 8:55:48.399 | Kalshi next CEO = Jensen | 280,157 contracts ($48k) | 17–18¢ | +7.3 s |
-| 8:55:53 | Polymarket rejoin by Dec 31 2026 (`0x3e03ea…`) | 50,980 contracts ($6.3k) | 12.4¢ | +11.9 s |
-| 8:55:57.902 | Kalshi next employer = Nvidia | 71,081 contracts ($8.7k) | 10–15¢ | +16.8 s |
-| 8:56:04 | Polymarket rejoin by Dec 31 2027 | 6,153 contracts ($2.5k) | 40–42¢ | +22.9 s |
-| 8:56:14 | Polymarket rejoin by Nov 30 2026 | 29,243 contracts ($14.6k) | 50¢ | +32.9 s |
-| 8:56:43 | Polymarket rejoin by Mar 31 2027 | 2,608 contracts ($2.3k) | 88¢ | +61.9 s |
+| 8:55:41.068 | HL `xyz:NVDA` (`0x25773676…`) | $239k | 135.9–136.0 | +0.07 s (sweep at +0.36 s) |
+| 8:55:48.399 | Kalshi next CEO = Jensen | 280,157 contracts ($48k) | 17–18¢ | +7.4 s |
+| 8:55:53 | Polymarket rejoin by Dec 31 2026 (`0x3e03ea…`) | 50,980 contracts ($6.3k) | 12.4¢ | +12.0 s |
+| 8:55:57.902 | Kalshi next employer = Nvidia | 71,081 contracts ($8.7k) | 10–15¢ | +16.9 s |
+| 8:56:04 | Polymarket rejoin by Dec 31 2027 | 6,153 contracts ($2.5k) | 40–42¢ | +23.0 s |
+| 8:56:14 | Polymarket rejoin by Nov 30 2026 | 29,243 contracts ($14.6k) | 50¢ | +33.0 s |
+| 8:56:43 | Polymarket rejoin by Mar 31 2027 | 2,608 contracts ($2.3k) | 88¢ | +62.0 s |
+
+"+0.07 s" assumes publication at 8:55:41.000; GlobeNewswire's stamp has no sub-second part.
 
 Kalshi "CEO hire = Jensen returns" saw only $1.9k of YES buying in the whole window, so it never reaches a burst.
 
@@ -74,13 +105,15 @@ The HL fills come from Ironflow, a third-party indexer, because Hyperliquid's AP
 - **Polymarket timestamps** are block times, which land ~1–3 s after the off-chain match.
 - **HL taker inference** is wrong on about 6% of fills, mostly during 8:56 (see above).
 - **Missing market:** `io:NVDA` traded in this window, and an earlier pull showed the same lead wallet hitting it at 8:55:46. Those raw records weren't kept and keyless Ironflow no longer reaches this window, so `io:NVDA` is out of the dataset. It can be recovered from Hyperliquid's S3 archive.
-- **The release time is only known to the minute.** The exact moment the wire went out is unknown.
+- **The release time is known to the second, not the millisecond.** GlobeNewswire's stamp has no sub-second part, so the HL sweep (8:55:41.362) can't be placed before or after publication within that second. Wire terminals (Bloomberg, Dow Jones) may have carried the headline at a slightly different moment; their feeds aren't public.
 
 ## Next steps
 Collect a set of events to test whether Hyperliquid is the trigger:
 1. Gap from HL's first burst to the prediction market's first burst. A tight, consistent gap points to HL as the trigger.
 2. HL bursts with no news. If prediction markets react to those too, takers are trading HL itself.
 3. News that prediction markets priced while HL didn't move.
+
+Ready candidates, both unscheduled NVIDIA GlobeNewswire releases with real-second stamps: the CEO transition (11-12 08:48:12) and the board statement (11-10 14:07:46).
 
 Needed: Hyperliquid history further back than 24 h. Hyperliquid's S3 archive covers it and carries the taker flag; it needs AWS credentials.
 

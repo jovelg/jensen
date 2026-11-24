@@ -711,5 +711,45 @@
     "records": 493,
     "bytes": 43815,
     "sha256": "3108e829c06c2b653d923c1294d81c1441ca1d088d36a519c7ae5eb3f38222ac"
+  },
+  "release-timing.json.gz": {
+    "source": "release timing evidence: GlobeNewswire pages (browser capture), EDGAR index, X post ids, NVIDIA feeds",
+    "requests": [
+      {
+        "url": "https://www.globenewswire.com/en/search/organization/NVIDIA%20Corporation",
+        "via": "real browser (GlobeNewswire returns 403 to scripted clients)"
+      },
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/0001045810-26-000090-index.htm"
+      },
+      {
+        "url": "https://nvidianews.nvidia.com/releases.xml"
+      },
+      {
+        "url": "https://investor.nvidia.com/feed/PressRelease.svc/GetPressReleaseList?LanguageId=1&bodyType=0&pressReleaseDateFilter=3&categoryId=1cb807d2-208f-4bc3-9133-6a9ad45ac3b0&pageSize=5&pageNumber=0&tagList=&includeTags=true&year=2026&excludeSelection=1"
+      },
+      {
+        "url": "https://247wallst.com/cards/nvda-xpost-01m84bcy4etw7wsc83d2rqbyqb"
+      },
+      {
+        "url": "https://247wallst.com/cards/nvda-xpost-01m84bcy4etw7wsc83d2rqbyqb"
+      },
+      {
+        "url": "https://nofomo.top/story/3411-nvidia-reinstates-jensen-huang-as-ceo"
+      },
+      {
+        "url": "https://247wallst.com/cards/nvda-xpost-01m84bcy4etw7wsc83d2rqbyqb"
+      },
+      {
+        "url": "https://nofomo.top/story/3411-nvidia-reinstates-jensen-huang-as-ceo"
+      },
+      {
+        "url": "https://247wallst.com/cards/nvda-xpost-01m84bcy4etw7wsc83d2rqbyqb"
+      }
+    ],
+    "pulled_at": "2026-11-24T07:17:46+00:00",
+    "records": 6,
+    "bytes": 4265,
+    "sha256": "fe9a9fb84a4e073bf0d8134a0500384512f83822319a6d3aa90074f415b2cf91"
   }
 }
