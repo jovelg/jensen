@@ -1,0 +1,33 @@
+name = "2026-11-23-jensen"
+title = "Jensen Huang reinstated as NVIDIA CEO"
+start = "2026-11-23T13:54:00Z"   # 8:54 ET
+end = "2026-11-23T13:58:00Z"
+utc_offset = -5                  # display times in ET (EST)
+
+[marks]
+"Press release minute" = "2026-11-23T13:55:00Z"   # GlobeNewswire, stamped to the minute
+"First X posts" = "2026-11-23T13:55:51.5Z"        # PM Pulse, decoded from post IDs
+
+[hyperliquid]
+# io:NVDA also traded this window (the same lead wallet hit it at 8:55:46), but its raw records were
+# not kept and keyless Ironflow no longer reaches it. Add "io:NVDA" here once IRONFLOW_API_KEY is set
+# (a free key reaches 14 days back, i.e. until 2026-12-07).
+coins = ["xyz:NVDA"]
+source = "ironflow"              # or "s3" (requester-pays archive)
+
+[kalshi]                         # every Kalshi market that paid YES on Jensen's return
+"KXNVDACEO-29JAN-JENS" = "K next CEO = Jensen"
+"KXJOINJENSENHUANG-27JAN-NVDA" = "K next employer = Nvidia"
+"KXNVDACEOHIRE-29-29JAN01-JHUA" = "K CEO hire = Jensen returns"
+
+[polymarket]                     # event slug -> label prefix; market labels add the slug suffix
+"jensen-huang-rejoins-nvidia-byptptpt" = "PM rejoin by"
+
+[pmus]
+"nphc-nvidiaceo-2028-12-31-jenhua" = "US next CEO = Jensen"
+"nphc-jenhua-nvidiaceoby-2026-12-31" = "US Jensen next CEO by 12/31"
+
+[bursts]                         # venue = [bucket ms, min taker-buy $ per bucket]
+hyperliquid = [500, 100000]      # $ notional perp
+kalshi = [500, 5000]
+polymarket = [1000, 2000]        # block time is whole seconds; nearest-dated markets were 3-12c

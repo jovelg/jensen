@@ -1,0 +1,136 @@
+{
+  "hl-ironflow-xyz_NVDA.json.gz": {
+    "source": "ironflow /v1/trades (hyperliquid fills)",
+    "requests": [
+      {
+        "url": "https://api.ironflow.sh/v1/trades",
+        "params": {
+          "market": "xyz:NVDA-PERP",
+          "from": 1795442040000,
+          "to": 1795442280000,
+          "limit": 1000,
+          "order": "asc"
+        },
+        "api_key": false
+      }
+    ],
+    "pulled_at": "2026-11-24 (exact time not recorded)",
+    "records": 23070,
+    "bytes": 1111464,
+    "sha256": "aaf8902cbd54a4a273732fb1a2e58552dd2ded27ed32fbaf58bdd437efe32356",
+    "note": "Saved from an earlier interactive pull's in-memory records, unmodified; keyless Ironflow can no longer serve this window."
+  },
+  "kalshi-KXJOINJENSENHUANG-27JAN-NVDA.json.gz": {
+    "source": "kalshi public trades",
+    "requests": [
+      {
+        "url": "https://api.elections.kalshi.com/trade-api/v2/markets/trades",
+        "params": {
+          "ticker": "KXJOINJENSENHUANG-27JAN-NVDA",
+          "min_ts": 1795442040,
+          "max_ts": 1795442281,
+          "limit": 1000
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:34:43+00:00",
+    "records": 318,
+    "bytes": 9488,
+    "sha256": "b915c8977f884900e43d1d5b77432cdb1b8099efe4b123f1cb58022ab0286768"
+  },
+  "kalshi-KXNVDACEO-29JAN-JENS.json.gz": {
+    "source": "kalshi public trades",
+    "requests": [
+      {
+        "url": "https://api.elections.kalshi.com/trade-api/v2/markets/trades",
+        "params": {
+          "ticker": "KXNVDACEO-29JAN-JENS",
+          "min_ts": 1795442040,
+          "max_ts": 1795442281,
+          "limit": 1000
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:34:42+00:00",
+    "records": 1228,
+    "bytes": 33366,
+    "sha256": "4b45060132127a8b855e0c6469b0e9ce069bc6f212c608605c2cad0dc81f887e"
+  },
+  "kalshi-KXNVDACEOHIRE-29-29JAN01-JHUA.json.gz": {
+    "source": "kalshi public trades",
+    "requests": [
+      {
+        "url": "https://api.elections.kalshi.com/trade-api/v2/markets/trades",
+        "params": {
+          "ticker": "KXNVDACEOHIRE-29-29JAN01-JHUA",
+          "min_ts": 1795442040,
+          "max_ts": 1795442281,
+          "limit": 1000
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:34:43+00:00",
+    "records": 23,
+    "bytes": 891,
+    "sha256": "741d77cee981be64a01d91f37d305000738de80fee6348331de9ce12c3747808"
+  },
+  "pmus-nphc-jenhua-nvidiaceoby-2026-12-31.json.gz": {
+    "source": "polymarket us price-history (display prices, not trades)",
+    "requests": [
+      {
+        "url": "https://gateway.polymarket.us/v1/price-history",
+        "params": {
+          "symbol": "nphc-jenhua-nvidiaceoby-2026-12-31",
+          "timestamp.startTimestamp": 1795442040,
+          "timestamp.endTimestamp": 1795442280,
+          "fidelity": 1
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:34:48+00:00",
+    "records": 5,
+    "bytes": 95,
+    "sha256": "a562e531b585ba562b2fad629c86a2d442d6079903f638de1c04a3d439b228f6"
+  },
+  "pmus-nphc-nvidiaceo-2028-12-31-jenhua.json.gz": {
+    "source": "polymarket us price-history (display prices, not trades)",
+    "requests": [
+      {
+        "url": "https://gateway.polymarket.us/v1/price-history",
+        "params": {
+          "symbol": "nphc-nvidiaceo-2028-12-31-jenhua",
+          "timestamp.startTimestamp": 1795442040,
+          "timestamp.endTimestamp": 1795442280,
+          "fidelity": 1
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:34:48+00:00",
+    "records": 5,
+    "bytes": 110,
+    "sha256": "31f01ab5326d785a83c43b16be065a17c6c0cd80a58847558234d13d6f672f2c"
+  },
+  "polymarket-jensen-huang-rejoins-nvidia-byptptpt.json.gz": {
+    "source": "polymarket gamma event + data-api v2 taker trades",
+    "requests": [
+      {
+        "url": "https://gamma-api.polymarket.com/events",
+        "params": {
+          "slug": "jensen-huang-rejoins-nvidia-byptptpt"
+        }
+      },
+      {
+        "url": "https://data-api.polymarket.com/v2/trades",
+        "params": {
+          "condition": "0x6368d1c0daed920fb7cb4444636b605e8b02d700dfdf70bba2758a7c0c4054cb,0x27748e74503ff93d998d1e857980c43eca77c38efd61f642dd43d41a18525250,0x79a7b7c58effc4f2753011fb78f44ff59d1912eddc62f4a4ad16f7adda09eb81,0xf29406bd9f45effb17a902125a7480b9e15fdc7c24f1a897f543ed3799876be6",
+          "limit": 1000,
+          "taker_only": "true"
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:34:48+00:00",
+    "records": 493,
+    "bytes": 43815,
+    "sha256": "3108e829c06c2b653d923c1294d81c1441ca1d088d36a519c7ae5eb3f38222ac"
+  }
+}

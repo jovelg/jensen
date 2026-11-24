@@ -1,14 +1,37 @@
 # news-research
 
-Cross-venue taker tapes around news: Hyperliquid, Kalshi, Polymarket (polymarket.com) and Polymarket US.
+Who trades news first? Cross-venue taker tapes around news events: Hyperliquid perps, Kalshi, Polymarket (polymarket.com) and Polymarket US.
 
-- `notebooks/jensen_reinstatement.ipynb`: who clicked first when NVIDIA reinstated Jensen Huang (2026-11-23, 8:55 AM ET). Executed outputs are saved; the source pulls are cached in `data/2026-11-23-jensen/`, so it re-runs offline.
-- `src/hl.py`: Hyperliquid market discovery, candles, tick fills (Ironflow; S3 archive).
-- `src/venues.py`: Kalshi, Polymarket and Polymarket US tapes in one row format.
-- `src/event_window.py`: CLI that writes `trades.csv`, `bursts.txt` and `chart.png` for any window.
+## Findings
+| Event | Finding |
+|---|---|
+| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/2026-11-23-jensen.md) | Hyperliquid `xyz:NVDA` long-taker buying began at 8:55:41.1 ET, 7.3 s before Kalshi's first burst and 11.9 s before Polymarket's first fill. Polymarket US publishes no trade tape. Whether HL was the trigger needs a set of events. |
 
-```sh
-uv run --with jupyter,pandas,matplotlib jupyter lab notebooks/jensen_reinstatement.ipynb
+## Layout
+```
+events/              one TOML per event: window, markets, reference timestamps, burst thresholds
+src/newsflow/        library: one module per venue (fetch raw + normalize), pipeline, analysis, CLI
+data/raw/<event>/    source pulls, records unmodified (gzipped JSON) + manifest.json (source, requests, pull time, sha256)
+data/processed/      normalized tape and burst tables (CSV)
+notebooks/           numbered evidence notebooks; outputs are committed so GitHub renders them
+reports/             written findings; reports/figures/ holds their charts
+tests/               normalization and paging rules
 ```
 
-Polymarket US publishes no trade history; its trades exist only if captured live from the markets websocket.
+## Reproduce
+Needs [uv](https://docs.astral.sh/uv/). Dependencies are pinned in `uv.lock`.
+
+```sh
+make all                                    # fetch -> process -> figures -> notebooks
+make all EVENT=events/<name>.toml           # another event
+make test
+```
+
+`make data` never refetches an existing raw file; delete one to force it. Venue data limits:
+
+| Venue | History available after the fact |
+|---|---|
+| Kalshi | full public tape; trades older than the archive cutoff come from `/historical/trades` |
+| Polymarket | full on-chain taker tape (block time, ~1–3 s after the match) |
+| Hyperliquid | Ironflow: 24 h back without a key, 14 days with `IRONFLOW_API_KEY`. S3 archive (`hyperliquid.source = "s3"`): everything since Jul 2025, needs AWS credentials, `aws` CLI and `lz4` |
+| Polymarket US | none: trades exist only if captured live from the markets websocket |
