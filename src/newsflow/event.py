@@ -17,6 +17,7 @@ class Event:
     end_ms: int
     tz: timezone
     marks: dict[str, int]
+    release: str | None          # the mark that is the news going public (t=0 in the overlay)
     hl_coins: list[str]
     hl_source: str
     kalshi: dict[str, str]       # ticker -> label
@@ -30,7 +31,7 @@ def load(path: str | pathlib.Path) -> Event:
     return Event(
         name=c["name"], title=c["title"], start_ms=ms(c["start"]), end_ms=ms(c["end"]),
         tz=timezone(timedelta(hours=c["utc_offset"])),
-        marks={k: ms(v) for k, v in c.get("marks", {}).items()},
+        marks={k: ms(v) for k, v in c.get("marks", {}).items()}, release=c.get("release"),
         hl_coins=hl.get("coins", []), hl_source=hl.get("source", "ironflow"),
         kalshi=c.get("kalshi", {}), polymarket=c.get("polymarket", {}),
         bursts={k: (int(v[0]), float(v[1])) for k, v in c["bursts"].items()},

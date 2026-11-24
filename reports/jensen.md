@@ -15,6 +15,10 @@
 
 Each callout is one burst: size, price range, cash risked → payout at $1 (binaries), or long notional and the top wallet's share (HL). Panel titles carry the window totals. Kalshi's callouts line up with the PM Pulse chart (280K at 17–18¢, 459K at 59–66¢). Their 389K at 21–33¢ shows here as 399K at 20–33¢ because the 0.5 s buckets are cut differently.
 
+![Hyperliquid overlaid on the prediction markets, 8:55:31–8:56:31](figures/2026-11-23-jensen-overlay-zoom.png)
+
+The same window on one plot. Top: YES prices (colored, ¢) against HL `xyz:NVDA`'s % move from its last pre-release print (black). Bottom: each venue's taker buying accumulated as a % of its own window total, which compares when each venue bought regardless of size. HL leaves the floor in the release second; Kalshi's and Polymarket's first bursts come with HL already up 2.8% and 5.4%. Full window (8:54–8:58): [`figures/2026-11-23-jensen-overlay-full.png`](figures/2026-11-23-jensen-overlay-full.png).
+
 ## When did the release actually go out?
 GlobeNewswire's page shows "November 23, 2026 08:55 ET". Its `og:article:published_time` and JSON-LD `datePublished` say **2026-11-23T13:55:41Z**. NVIDIA's other GlobeNewswire releases show how to read that:
 

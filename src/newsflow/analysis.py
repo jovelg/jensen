@@ -134,3 +134,55 @@ def chart(tape: pd.DataFrame, ev, t0: int, t1: int, bucket_ms: int = 500, annota
     fig.suptitle(f"{ev.title}. Red dashed: first Hyperliquid burst; dotted: " + ", ".join(ev.marks) + f". Times UTC{ev.tz.utcoffset(None).total_seconds() / 3600:+g}.", fontsize=9)
     fig.tight_layout()
     return fig
+
+
+def overlay(tape: pd.DataFrame, ev, t0: int, t1: int):
+    """Hyperliquid over the prediction markets on one clock.
+    Top: YES prices (left, ¢) with the HL perp's % move from its last pre-release trade (right).
+    Bottom: each venue's cumulative YES/long taker buying as % of its total in the window, so venues of
+    very different size compare on when the buying happened. The event's release mark is t=0."""
+    def ts(t):
+        x = pd.to_datetime(t, unit="ms", utc=True)
+        return x.dt.tz_convert(ev.tz) if isinstance(x, pd.Series) else x.tz_convert(ev.tz)
+
+    release = ev.release
+    t_rel = ev.marks[release] if release else t0
+    d = tape[tape.t_ms.between(t0, t1)]
+    fig, (top, bot) = plt.subplots(2, 1, figsize=(17, 9), sharex=True, gridspec_kw={"height_ratios": [3, 2]})
+    style = {"kalshi": "-", "polymarket": "--"}
+    for (venue, label), g in d[d.venue != "hyperliquid"].groupby(["venue", "label"]):
+        if len(g) > 1:
+            top.step(g.time, g.price * 100, where="post", ls=style.get(venue, "-"), lw=1.3, label=label)
+    top.set_ylabel("YES price (¢)")
+    hl_ax = top.twinx()
+    for coin, g in tape[tape.venue == "hyperliquid"].groupby("label"):
+        base = g[g.t_ms < t_rel].price.iloc[-1]
+        w = g[g.t_ms.between(t0, t1)]
+        hl_ax.step(w.time, (w.price / base - 1) * 100, where="post", color="black", lw=2, label=f"{coin} % vs pre-release ({base:g})")
+    hl_ax.set_ylabel("Hyperliquid move (%)")
+    h1, l1 = top.get_legend_handles_labels()
+    h2, l2 = hl_ax.get_legend_handles_labels()
+    top.legend(h2 + h1, l2 + l1, fontsize=8, loc="upper left", bbox_to_anchor=(1.05, 1), borderaxespad=0, framealpha=.9)
+    top.set_title("Prices: prediction-market YES (colored, left axis) vs Hyperliquid perp (black, right axis)", loc="left", fontsize=10)
+
+    colors = {"hyperliquid": "black", "kalshi": "tab:green", "polymarket": "tab:blue"}
+    firsts = bursts_by_market(d, ev.bursts).groupby("venue").t_ms.min()
+    for venue, g in d[d.side > 0].groupby("venue"):
+        cum = g.usd.cumsum() / g.usd.sum() * 100
+        first = f"first burst {(firsts[venue] - t_rel) / 1000:+.1f} s" if venue in firsts else "no burst"
+        bot.step(g.time, cum, where="post", color=colors.get(venue), lw=2, label=f"{venue}: \\${_k(g.usd.sum())} total; {first}")
+    bot.set_ylabel("cumulative taker buying (% of window total)")
+    bot.set_ylim(0, 100)
+    bot.legend(fontsize=8, loc="upper left", bbox_to_anchor=(1.05, 1), borderaxespad=0, framealpha=.9)
+    bot.set_title("When the buying happened: each venue's YES/long taker $ accumulated over the window", loc="left", fontsize=10)
+    for ax in (top, bot):
+        for name, t in ev.marks.items():
+            ax.axvline(ts(t), color="tab:red" if name == release else "0.3", ls="--" if name == release else ":", lw=1.2)
+            if ax is top and t0 <= t <= t1:
+                ax.annotate(f"{name} {ts(t).strftime('%H:%M:%S.%f')[:-5]}", (ts(t), 1), xycoords=("data", "axes fraction"),
+                            xytext=(3, -3), textcoords="offset points", fontsize=8, rotation=90, va="top")
+        ax.set_xlim(ts(t0), ts(t1))
+    bot.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S", tz=ev.tz))
+    fig.suptitle(f"{ev.title}: Hyperliquid overlaid on the prediction markets. Times UTC{ev.tz.utcoffset(None).total_seconds() / 3600:+g}.", fontsize=10)
+    fig.tight_layout()
+    return fig

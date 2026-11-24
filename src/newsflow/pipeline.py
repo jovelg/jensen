@@ -114,3 +114,6 @@ def figures(ev: Event) -> None:
         fig = analysis.chart(t, ev, a, b, bucket, annotate=notes)
         fig.savefig(out / f"{ev.name}-{suffix}.png", dpi=130)
         print(f"wrote {out}/{ev.name}-{suffix}.png")
+    for suffix, a, b in (("overlay-zoom", zoom0, zoom0 + 60_000), ("overlay-full", ev.start_ms, ev.end_ms)):
+        analysis.overlay(t, ev, a, b).savefig(out / f"{ev.name}-{suffix}.png", dpi=130)
+        print(f"wrote {out}/{ev.name}-{suffix}.png")

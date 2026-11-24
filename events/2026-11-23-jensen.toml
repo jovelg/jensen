@@ -3,6 +3,7 @@ title = "Jensen Huang reinstated as NVIDIA CEO"
 start = "2026-11-23T13:54:00Z"   # 8:54 ET
 end = "2026-11-23T13:58:00Z"
 utc_offset = -5                  # display times in ET (EST)
+release = "GlobeNewswire published"   # the mark that is t=0
 
 [marks]   # evidence: data/raw/<event>/release-timing.json.gz
 "GlobeNewswire published" = "2026-11-23T13:55:41Z"   # og:article:published_time; the page shows "08:55 ET"
