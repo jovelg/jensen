@@ -4,7 +4,7 @@ import pathlib
 
 import pandas as pd
 
-from . import analysis, hl, kalshi, pascal, polymarket, rawstore, verify
+from . import analysis, hl, kalshi, pascal, polymarket, rawstore, timing, verify
 from .event import Event
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -122,3 +122,15 @@ def figures(ev: Event) -> None:
     for suffix, a, b in (("overlay-zoom", zoom0, zoom0 + 60_000), ("overlay-full", ev.start_ms, ev.end_ms)):
         analysis.overlay(t, ev, a, b).savefig(out / f"{ev.name}-{suffix}.png", dpi=130)
         print(f"wrote {out}/{ev.name}-{suffix}.png")
+    if ev.share and ev.release:
+        fig = analysis.share(t, ev, x_posts(ev), ev.share["title"], ev.share["subtitle"], ev.share["footer"], ev.share.get("official_x"))
+        fig.savefig(out / f"{ev.name}-share.png", dpi=200)
+        print(f"wrote {out}/{ev.name}-share.png")
+
+
+def x_posts(ev: Event) -> list[tuple[str, int]]:
+    """(who, t_ms) for the event's X posts: the 'First X posts' mark plus every post id in release-timing."""
+    posts = [("first posts", ev.marks["First X posts"])] if "First X posts" in ev.marks else []
+    if rawstore.path(raw_dir(ev), "release-timing").exists():
+        posts += [(f"@{x['account']}", timing.snowflake_ms(x["id"])) for x in rawstore.read(raw_dir(ev), "release-timing")["x_posts"]]
+    return sorted(posts, key=lambda p: p[1])

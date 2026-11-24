@@ -28,3 +28,9 @@ source = "ironflow"              # or "s3" (requester-pays archive)
 hyperliquid = [500, 100000]      # $ notional perp
 kalshi = [500, 5000]
 polymarket = [1000, 2000]        # block time is whole seconds; nearest-dated markets were 3-12c
+
+[share]                          # tweet card: reports/figures/<event>-share.png
+title = "Jensen Huang reinstated as NVIDIA CEO: who traded first"
+subtitle = "Taker buying in the seconds after NVIDIA's press release. Hyperliquid's NVDA perp moved in the same second; Kalshi 7.4 s later; Polymarket 12 s."
+footer = "Release time: GlobeNewswire page metadata (13:55:41 UTC). Hyperliquid xyz:NVDA fills via Ironflow, checked against Hyperliquid's API. Kalshi and Polymarket: public trade APIs; Polymarket times are Polygon block times (~1–3 s after the match). First X posts per PM Pulse. Dot area = taker $ per 0.5 s, scaled within each lane."
+official_x = "nvidianewsroom"

@@ -187,3 +187,82 @@ def overlay(tape: pd.DataFrame, ev, t0: int, t1: int):
     fig.suptitle(f"{ev.title}: Hyperliquid overlaid on the prediction markets. Times UTC{ev.tz.utcoffset(None).total_seconds() / 3600:+g}.", fontsize=10)
     fig.tight_layout()
     return fig
+
+
+VENUE_STYLE = {"hyperliquid": ("Hyperliquid", "#111111"), "kalshi": ("Kalshi", "#1a9e5c"),
+               "polymarket": ("Polymarket", "#2e6be6"), "pascal": ("Pascal", "#8a4fd8"), "x": ("X posts", "#888888")}
+
+
+def share(tape: pd.DataFrame, ev, posts: list[tuple[str, int]], title: str, subtitle: str, footer: str,
+          official_x: str | None = None, before_s: float = 5, after_s: float = 40, bucket_ms: int = 500):
+    """Tweet card: one lane per venue, x = seconds after the release mark. Dots are YES/long taker $ per
+    bucket, area scaled within each lane; each lane labels its first burst. `posts` are (who, t_ms) X posts;
+    `official_x` names the issuer's own account, called out if it posted after the window.
+    Lanes are ordered by first reaction, so the chart reads top to bottom as the order things happened."""
+    def esc(s: str) -> str:
+        return s.replace("$", r"\$")
+
+    t_rel = ev.marks[ev.release]
+    t0, t1 = t_rel - before_s * 1000, t_rel + after_s * 1000
+    d = tape[(tape.side > 0) & tape.t_ms.between(t0, t1)]
+    firsts = bursts_by_market(d, ev.bursts).sort_values("t_ms").groupby("venue").head(1).set_index("venue")
+
+    lanes = [(v, firsts.loc[v].t_ms) for v in firsts.index if v in VENUE_STYLE]
+    shown = [(who, t) for who, t in posts if t0 <= t <= t1]
+    if shown:
+        lanes.append(("x", min(t for _, t in shown)))
+    lanes.sort(key=lambda x: x[1])
+
+    plt.rcParams.update({"font.family": "DejaVu Sans"})
+    fig, ax = plt.subplots(figsize=(16, 9))
+    fig.subplots_adjust(left=0.13, right=0.97, top=0.80, bottom=0.17)
+    sec = lambda t: (t - t_rel) / 1000  # noqa: E731
+
+    def lag(t):
+        s = sec(t)
+        return "same second" if 0 <= s < 1 else f"{s:+.1f} s"
+
+    for i, (venue, first_t) in enumerate(lanes):
+        y = len(lanes) - 1 - i
+        name, color = VENUE_STYLE[venue]
+        ax.axhline(y, color="#e6e6e6", lw=1, zorder=0)
+        if venue == "x":
+            for who, t in shown:
+                ax.scatter(sec(t), y, marker="D", s=70, color=color, zorder=3)
+                ax.annotate(who, (sec(t), y), xytext=(0, -20), textcoords="offset points", ha="center", fontsize=11, color=color)
+            official = [t for who, t in posts if official_x and who == f"@{official_x}"]
+            note = f"first posts {lag(first_t)}" + (f";  @{official_x} {sec(official[0]) / 60:.1f} min later" if official and official[0] > t1 else "")
+            ax.annotate(note, (sec(first_t), y), xytext=(10, 12), textcoords="offset points", fontsize=13, color="#444444")
+        else:
+            g = d[d.venue == venue]
+            flow = g.groupby(g.t_ms // bucket_ms * bucket_ms).usd.sum()
+            sizes = 20 + 1400 * flow.values / flow.max()
+            ax.scatter([sec(t + bucket_ms / 2) for t in flow.index], [y] * len(flow), s=sizes, color=color, alpha=0.55, lw=0, zorder=2)
+            b = firsts.loc[venue]
+            if venue == "hyperliquid":
+                ten = g[g.t_ms.between(b.t_ms, b.t_ms + 10_000)].usd.sum()
+                detail = f"${_k(ten)} of longs in the next 10 s"
+            else:
+                detail = f"{_k(b.qty)} YES at {_cents(b.px_lo, b.px_hi)}, ${_k(b.usd)}"
+            ring = b.t_ms // bucket_ms * bucket_ms + bucket_ms / 2   # the dot that holds the first burst
+            ax.scatter(sec(ring), y, s=260 + 1400 * flow.get(b.t_ms // bucket_ms * bucket_ms, 0) / flow.max(),
+                       facecolors="none", edgecolors=color, lw=2.2, zorder=4)
+            ax.annotate(esc(f"{lag(b.t_ms)}  ·  {detail}"), (sec(b.t_ms), y), xytext=(14, 16), textcoords="offset points",
+                        fontsize=13, color=color, fontweight="bold")
+        ax.text(-before_s - 0.6, y, name, ha="right", va="center", fontsize=16, fontweight="bold", color=color)
+
+    ax.axvline(0, color="#d62728", lw=2, zorder=1)
+    ax.annotate(f"Press release hits GlobeNewswire\n{pd.Timestamp(t_rel, unit='ms', tz='UTC').tz_convert(ev.tz):%-I:%M:%S} AM ET",
+                (0, len(lanes) - 0.4), xytext=(8, 0), textcoords="offset points", fontsize=12, color="#d62728", va="bottom")
+    ax.set_xlim(-before_s, after_s)
+    ax.set_ylim(-0.7, len(lanes) - 0.3)
+    ax.set_yticks([])
+    ax.set_xlabel("seconds after the press release", fontsize=13, color="#444444")
+    ax.tick_params(axis="x", labelsize=12, colors="#444444")
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    ax.spines["bottom"].set_color("#bbbbbb")
+    fig.text(0.03, 0.93, esc(title), fontsize=24, fontweight="bold", color="#111111")
+    fig.text(0.03, 0.875, esc(subtitle), fontsize=14, color="#555555")
+    fig.text(0.03, 0.035, esc(footer), fontsize=10, color="#888888", wrap=True)
+    return fig

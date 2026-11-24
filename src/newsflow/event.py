@@ -24,6 +24,7 @@ class Event:
     polymarket: dict[str, str]   # event slug -> label prefix
     pascal: dict[str, str]       # market symbol -> label
     bursts: dict[str, tuple[int, float]]  # venue -> (bucket ms, min taker-buy $ per bucket)
+    share: dict[str, str]        # tweet-card copy: title, subtitle, footer, official_x
 
 
 def load(path: str | pathlib.Path) -> Event:
@@ -35,5 +36,5 @@ def load(path: str | pathlib.Path) -> Event:
         marks={k: ms(v) for k, v in c.get("marks", {}).items()}, release=c.get("release"),
         hl_coins=hl.get("coins", []), hl_source=hl.get("source", "ironflow"),
         kalshi=c.get("kalshi", {}), polymarket=c.get("polymarket", {}), pascal=c.get("pascal", {}),
-        bursts={k: (int(v[0]), float(v[1])) for k, v in c["bursts"].items()},
+        bursts={k: (int(v[0]), float(v[1])) for k, v in c["bursts"].items()}, share=c.get("share", {}),
     )
