@@ -4,7 +4,7 @@
 
 ## Summary
 - **The release went out at 8:55:41, not 8:55:00.** GlobeNewswire's page shows only the minute; its metadata carries the second. The ~41 s "gap" between the 8:55 stamp and the first trades was that rounding.
-- **Hyperliquid reacted in the same second.** Wallet `0x25773676…` swept the `xyz:NVDA` ask at 8:55:41.362 and bought $2.96M in the first 10 s. GlobeNewswire publishes only to the second, so whether the sweep came a few hundred ms before or after publication can't be told.
+- **Hyperliquid reacted in the same second.** Wallet [`0x25773676902085225ae5751075e4161369334897`](https://app.hyperliquid.xyz/explorer/address/0x25773676902085225ae5751075e4161369334897) swept the `xyz:NVDA` ask at 8:55:41.362 and bought $2.96M in the first 10 s. GlobeNewswire publishes only to the second, so whether the sweep came a few hundred ms before or after publication can't be told.
 - **Kalshi followed 7.4 s after the release** with 280,157 YES at 17–18¢ on "next CEO = Jensen" (8:55:48.399). HL NVDA was already up about 2% by then.
 - **X was slower than both.** First posts 8:55:51.5 per PM Pulse (+10.5 s; post not identified); the earliest post we could verify is @DeItaone at 8:56:16.1 (+35 s).
 - **Polymarket's first fill landed at 8:55:53** (block time; the actual match was ~1–3 s earlier), 12 s after the release.
