@@ -123,9 +123,10 @@ def figures(ev: Event) -> None:
         analysis.overlay(t, ev, a, b).savefig(out / f"{ev.name}-{suffix}.png", dpi=130)
         print(f"wrote {out}/{ev.name}-{suffix}.png")
     if ev.share and ev.release:
-        fig = analysis.share(t, ev, x_posts(ev), ev.share["title"], ev.share["subtitle"], ev.share["footer"], ev.share.get("official_x"))
-        fig.savefig(out / f"{ev.name}-share.png", dpi=200)
-        print(f"wrote {out}/{ev.name}-share.png")
+        for theme, suffix in (("light", "share"), ("dark", "share-dark")):
+            fig = analysis.share(t, ev, x_posts(ev), ev.share["title"], ev.share["subtitle"], ev.share["footer"], ev.share.get("official_x"), theme)
+            fig.savefig(out / f"{ev.name}-{suffix}.png", dpi=200, facecolor=fig.get_facecolor())
+            print(f"wrote {out}/{ev.name}-{suffix}.png")
 
 
 def x_posts(ev: Event) -> list[tuple[str, int]]:
