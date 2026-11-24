@@ -4,7 +4,7 @@ import pathlib
 
 import pandas as pd
 
-from . import analysis, hl, kalshi, pmus, polymarket, rawstore
+from . import analysis, hl, kalshi, polymarket, rawstore, verify
 from .event import Event
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -18,20 +18,27 @@ def processed_dir(ev: Event) -> pathlib.Path:
     return ROOT / "data" / "processed" / ev.name
 
 
+def _coin(coin: str) -> str:
+    return coin.replace(":", "_")
+
+
 def _sources(ev: Event):
-    """(raw file name, source description, fetch thunk) for every source in the event."""
+    """(raw file name, source description, fetch thunk) in dependency order."""
     a, b = ev.start_ms, ev.end_ms
     for coin in ev.hl_coins:
         if ev.hl_source == "s3":
-            yield f"hl-s3-{coin.replace(':', '_')}", "hyperliquid s3 node_fills_by_block", lambda c=coin: hl.fetch_s3(c, a, b, ROOT / "data" / "hl-s3")
+            yield f"hl-s3-{_coin(coin)}", "hyperliquid s3 node_fills_by_block", lambda c=coin: hl.fetch_s3(c, a, b, ROOT / "data" / "hl-s3")
         else:
-            yield f"hl-ironflow-{coin.replace(':', '_')}", "ironflow /v1/trades (hyperliquid fills)", lambda c=coin: hl.fetch_ironflow(c, a, b)
+            fills = f"hl-ironflow-{_coin(coin)}"
+            yield fills, "ironflow /v1/trades (hyperliquid fills)", lambda c=coin: hl.fetch_ironflow(c, a, b)
+            # First-party Hyperliquid evidence used to verify the Ironflow fills (verify.py).
+            yield f"hl-candles-{_coin(coin)}", "hyperliquid info candleSnapshot 1m", lambda c=coin: hl.fetch_candles(c, a, b)
+            yield (f"hl-userfills-{_coin(coin)}", "hyperliquid info userFillsByTime (wallets active in the window)",
+                   lambda c=coin, f=fills: hl.fetch_user_fills(c, a, b, hl.active_wallets(rawstore.read(raw_dir(ev), f))))
     for t in ev.kalshi:
         yield f"kalshi-{t}", "kalshi public trades", lambda t=t: kalshi.fetch(t, a, b)
     for slug in ev.polymarket:
         yield f"polymarket-{slug}", "polymarket gamma event + data-api v2 taker trades", lambda s=slug: polymarket.fetch(s, a, b)
-    for slug in ev.pmus:
-        yield f"pmus-{slug}", "polymarket us price-history (display prices, not trades)", lambda s=slug: pmus.fetch(s, a, b)
 
 
 def fetch(ev: Event) -> None:
@@ -50,7 +57,7 @@ def tape(ev: Event) -> pd.DataFrame:
     rows, labels = [], {}
     raw = raw_dir(ev)
     for coin in ev.hl_coins:
-        name = f"hl-{ev.hl_source}-{coin.replace(':', '_')}"
+        name = f"hl-{ev.hl_source}-{_coin(coin)}"
         norm = hl.normalize_s3 if ev.hl_source == "s3" else hl.normalize_ironflow
         rows += norm(rawstore.read(raw, name))
         labels[coin] = f"HL {coin}"
@@ -70,12 +77,16 @@ def tape(ev: Event) -> pd.DataFrame:
     return df
 
 
-def pmus_prices(ev: Event) -> dict[str, pd.DataFrame]:
+def hl_checks(ev: Event) -> dict[str, dict]:
+    """Per Ironflow coin: candle and per-wallet fill comparisons against Hyperliquid's own API."""
+    if ev.hl_source != "ironflow":
+        return {}
+    raw = raw_dir(ev)
     out = {}
-    for slug, label in ev.pmus.items():
-        df = pd.DataFrame(pmus.prices(rawstore.read(raw_dir(ev), f"pmus-{slug}")))
-        df["clock"] = pd.to_datetime(df.t_ms, unit="ms", utc=True).dt.tz_convert(ev.tz).dt.strftime("%H:%M:%S")
-        out[label] = df
+    for coin in ev.hl_coins:
+        records = rawstore.read(raw, f"hl-ironflow-{_coin(coin)}")
+        out[coin] = {"candles": verify.candles(records, rawstore.read(raw, f"hl-candles-{_coin(coin)}"), ev.tz),
+                     "fills": verify.user_fills(records, rawstore.read(raw, f"hl-userfills-{_coin(coin)}"))}
     return out
 
 
@@ -87,17 +98,19 @@ def process(ev: Event) -> None:
     b = analysis.bursts_by_market(t, ev.bursts)
     b.to_csv(out / "bursts.csv", index=False)
     analysis.first_bursts(b, ev.marks).to_csv(out / "first_bursts.csv", index=False)
-    pd.concat(pmus_prices(ev), names=["label"]).reset_index(level=0).to_csv(out / "pmus_prices.csv", index=False)
-    print(f"wrote {out}/tape.csv, bursts.csv, first_bursts.csv, pmus_prices.csv")
+    for coin, c in hl_checks(ev).items():
+        c["candles"].to_csv(out / f"hl-check-candles-{_coin(coin)}.csv", index=False)
+        c["fills"]["rows"].to_csv(out / f"hl-check-fills-{_coin(coin)}.csv", index=False)
+    print(f"wrote {out}")
 
 
 def figures(ev: Event) -> None:
     out = ROOT / "reports" / "figures"
     out.mkdir(parents=True, exist_ok=True)
-    t, prices = tape(ev), pmus_prices(ev)
+    t = tape(ev)
     hl0 = analysis.first_bursts(analysis.bursts_by_market(t, ev.bursts), ev.marks).query("venue == 'hyperliquid'").t_ms.min()
     zoom0 = int(hl0) - 10_000 if pd.notna(hl0) else ev.start_ms
-    for suffix, a, b, bucket in (("zoom", zoom0, zoom0 + 60_000, 500), ("full", ev.start_ms, ev.end_ms, 2000)):
-        fig = analysis.chart(t, prices, ev, a, b, bucket)
+    for suffix, a, b, bucket, notes in (("zoom", zoom0, zoom0 + 60_000, 500, 4), ("full", ev.start_ms, ev.end_ms, 2000, 0)):
+        fig = analysis.chart(t, ev, a, b, bucket, annotate=notes)
         fig.savefig(out / f"{ev.name}-{suffix}.png", dpi=130)
         print(f"wrote {out}/{ev.name}-{suffix}.png")

@@ -10,8 +10,8 @@ utc_offset = -5                  # display times in ET (EST)
 
 [hyperliquid]
 # io:NVDA also traded this window (the same lead wallet hit it at 8:55:46), but its raw records were
-# not kept and keyless Ironflow no longer reaches it. Add "io:NVDA" here once IRONFLOW_API_KEY is set
-# (a free key reaches 14 days back, i.e. until 2026-12-07).
+# not kept and keyless Ironflow no longer reaches it. Recover it from Hyperliquid's own S3 archive
+# (source = "s3", needs AWS credentials), which also carries the first-party taker flag.
 coins = ["xyz:NVDA"]
 source = "ironflow"              # or "s3" (requester-pays archive)
 
@@ -22,10 +22,6 @@ source = "ironflow"              # or "s3" (requester-pays archive)
 
 [polymarket]                     # event slug -> label prefix; market labels add the slug suffix
 "jensen-huang-rejoins-nvidia-byptptpt" = "PM rejoin by"
-
-[pmus]
-"nphc-nvidiaceo-2028-12-31-jenhua" = "US next CEO = Jensen"
-"nphc-jenhua-nvidiaceoby-2026-12-31" = "US Jensen next CEO by 12/31"
 
 [bursts]                         # venue = [bucket ms, min taker-buy $ per bucket]
 hyperliquid = [500, 100000]      # $ notional perp

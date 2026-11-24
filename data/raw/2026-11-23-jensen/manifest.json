@@ -1,4 +1,25 @@
 {
+  "hl-candles-xyz_NVDA.json.gz": {
+    "source": "hyperliquid info candleSnapshot 1m",
+    "requests": [
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "candleSnapshot",
+          "req": {
+            "coin": "xyz:NVDA",
+            "interval": "1m",
+            "startTime": 1795442040000,
+            "endTime": 1795442279999
+          }
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:50:08+00:00",
+    "records": 4,
+    "bytes": 217,
+    "sha256": "1ffc19653afe0896a1a7e84d257631998a2ac05827ab31fe8d5d187ff384a935"
+  },
   "hl-ironflow-xyz_NVDA.json.gz": {
     "source": "ironflow /v1/trades (hyperliquid fills)",
     "requests": [
@@ -19,6 +40,600 @@
     "bytes": 1111464,
     "sha256": "aaf8902cbd54a4a273732fb1a2e58552dd2ded27ed32fbaf58bdd437efe32356",
     "note": "Saved from an earlier interactive pull's in-memory records, unmodified; keyless Ironflow can no longer serve this window."
+  },
+  "hl-userfills-xyz_NVDA.json.gz": {
+    "source": "hyperliquid info userFillsByTime (wallets active in the window)",
+    "requests": [
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x25773676902085225ae5751075e4161369334897",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x83b60765df7af084b81bfa5245fee7fdc172e049",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xdd966dff1c320d96b001bc2c0b03cf6145b64421",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xa736db349b1342261b18237eaa5cd121918e18a2",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xfe7ce058edc7cfcde9ef8262ba51f8d4796ab7ae",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x5a209e55c592687bb3f105f2f645c09238612d1b",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x2688d3ab9d031e11a0bd4c0fc31e35b4274a23f2",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x8b053f3736f61a47c73621090beef5692d6e7416",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x0de52cf07a1c9f48e8a812cd5c1239688144664a",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xd0f9337179d095d744be87b33d569e5c1aa8ce0b",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xc06dd151c27dbe535ae95797e8aab1bb8b8cc7c0",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xecb63caa47c7c4e77f60f1ce858cf28dc2b82b00",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x4e23288cee4960f9f962195c22948e4bc7ae20c3",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x41870f2811bde111efbfa94f84cd30943cef2624",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xd842ac3fe223fc514c6ca3f928a3c980d1b5100e",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x25ad068ba92b61ce2217c41270a9a69c247679af",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x6ba2ad09aa6629a423b59b71f3564d84ce66c001",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xa8dacc6b4847b29fc368e2fcb810451d062e8c06",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x89f76594c34cfc4a75ce92db7caaad980e210a0a",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xcda3875680f07adda0a2cd47bc5806f692678ed2",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xfc27136e42af1732ddc9ce2605ea9bff1b959d9d",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x6aeff08cbb7e0ad883259f7ee3f0ec4c08a090d4",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x4e60e3a4a32d63d245aa4e4ce304b4254b088f95",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x77a50944604c6a332b0e5738b8542a1926afdecc",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x9d81a3adf84bd66528b62f2bda03e2e24bed3416",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x5234a0bb1132627f458b8b1c357668b5c06654a9",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x7eec11611ed1c91abeb5029b8c95cebe2f083816",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x354bcb431a332079950d2ce3a4698745e0f66425",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xcb02837caaee310c178501855b63bf7f4f4b1f8b",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x53136b4a7c432585f28903b77c7816a723e0271f",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x54c3bbda87e624e460d4ac44ee28cffdd92c17d0",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x7c0a4bd8751b70f40fabbf384e2cd79281511503",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x63f6411ca61733af716c9a50a56a84ea38a0af59",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xbba9651d001014cb81628a91f824feb32e4a91e5",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xd0956a1eba0a9060baf5f73ee26b9601dc47ec43",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x7050a9abd4f06372247d19c39e5d718636f35fff",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x793660578d2628b0ec7e0e2b5c75a4847ae80706",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xf9109ada2f73c62e9889b45453065f0d99260a2d",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x47eeba0b1c83c1e1af5eef159d9060e779a8fe60",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xa4389a4ce31098e79b290f9eeb2bd10b775ad3b2",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xb07856ebcb6b37967eaf7c4b4e64dcce28c6de15",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x0b1ace05eb9ef1c3a1951b763700ecad24f27741",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xfd66e330954b1d33772a78a70874cc2600754eec",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x9eb18ddfb102401839a5f3ec0c944ec92e99fe4c",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x177019594ba3913d416ab1a8f3e5527d4c2b2837",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x2b8dca454618a866e959f018fb58f03df12185a4",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x69808bea8b45de39bba0cdc18addaee1f400a9c9",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xbfa317b7468a97e4e6a7a3c138b86ca0b7395477",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xf71ab4e4172730ed096b832f37982942935c7215",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xaf2ac71f62f341e5823d6985492409e92c940447",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xb4f1d3e5153599cd9f59c686dbee4262ac87d75c",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x5c180d12a23e4956f1a4b10f1c4598f619832709",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xa86290d695158a6e2fe31daef34738dfc57c587f",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x6809111be108b5f2fc57ac50799039af8ee14f8f",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xfc667adba8d4837586078f4fdcdc29804337ca06",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x86e0ebc902bf632e3b842e652ba1e60e8cf42553",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xea0e878d5da1f786c035355cd7a8d381a6276766",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xc1f8dc3c50ba9905f714f979ecbd814808ff0a28",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x68feb5a33db3fa4251931e7b87ed29af108f8b72",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xaa53f4044aea0bbf54c9a0b57feb994817c99cb7",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x03a3e96d4cfe24a257b1c9b851f9b6bb9259bdff",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xd46ee4619bad797c572647408406eaf896110003",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xffc03f2cfbc0b2dc47e84003800ad296eb6caf0b",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0x903b8416bee44190384560df31c5bb55112b03cb",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      },
+      {
+        "url": "https://api.hyperliquid.xyz/info",
+        "body": {
+          "type": "userFillsByTime",
+          "user": "0xd8c5228c515db3043dfa0c8cd6f22450ee9a99b0",
+          "startTime": 1795442040000,
+          "endTime": 1795442280000
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T06:50:44+00:00",
+    "records": 40,
+    "bytes": 419536,
+    "sha256": "85b21ae24bba02a77cc32bb51a06382c4f494b87e9cc780f7fb160d0d829314e"
   },
   "kalshi-KXJOINJENSENHUANG-27JAN-NVDA.json.gz": {
     "source": "kalshi public trades",
@@ -73,42 +688,6 @@
     "records": 23,
     "bytes": 891,
     "sha256": "741d77cee981be64a01d91f37d305000738de80fee6348331de9ce12c3747808"
-  },
-  "pmus-nphc-jenhua-nvidiaceoby-2026-12-31.json.gz": {
-    "source": "polymarket us price-history (display prices, not trades)",
-    "requests": [
-      {
-        "url": "https://gateway.polymarket.us/v1/price-history",
-        "params": {
-          "symbol": "nphc-jenhua-nvidiaceoby-2026-12-31",
-          "timestamp.startTimestamp": 1795442040,
-          "timestamp.endTimestamp": 1795442280,
-          "fidelity": 1
-        }
-      }
-    ],
-    "pulled_at": "2026-11-24T06:34:48+00:00",
-    "records": 5,
-    "bytes": 95,
-    "sha256": "a562e531b585ba562b2fad629c86a2d442d6079903f638de1c04a3d439b228f6"
-  },
-  "pmus-nphc-nvidiaceo-2028-12-31-jenhua.json.gz": {
-    "source": "polymarket us price-history (display prices, not trades)",
-    "requests": [
-      {
-        "url": "https://gateway.polymarket.us/v1/price-history",
-        "params": {
-          "symbol": "nphc-nvidiaceo-2028-12-31-jenhua",
-          "timestamp.startTimestamp": 1795442040,
-          "timestamp.endTimestamp": 1795442280,
-          "fidelity": 1
-        }
-      }
-    ],
-    "pulled_at": "2026-11-24T06:34:48+00:00",
-    "records": 5,
-    "bytes": 110,
-    "sha256": "31f01ab5326d785a83c43b16be065a17c6c0cd80a58847558234d13d6f672f2c"
   },
   "polymarket-jensen-huang-rejoins-nvidia-byptptpt.json.gz": {
     "source": "polymarket gamma event + data-api v2 taker trades",

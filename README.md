@@ -1,11 +1,11 @@
 # news-research
 
-Who trades news first? Cross-venue taker tapes around news events: Hyperliquid perps, Kalshi, Polymarket (polymarket.com) and Polymarket US.
+Who trades news first? Cross-venue taker tapes around news events: Hyperliquid perps, Kalshi and Polymarket (polymarket.com). Polymarket US is left out: it publishes no trade tape.
 
 ## Findings
 | Event | Finding |
 |---|---|
-| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/2026-11-23-jensen.md) | Hyperliquid `xyz:NVDA` long-taker buying began at 8:55:41.1 ET, 7.3 s before Kalshi's first burst and 11.9 s before Polymarket's first fill. Polymarket US publishes no trade tape. Whether HL was the trigger needs a set of events. |
+| [2026-11-23: Jensen Huang reinstated as NVIDIA CEO](reports/2026-11-23-jensen.md) | Hyperliquid `xyz:NVDA` long-taker buying began at 8:55:41.1 ET, 7.3 s before Kalshi's first burst and 11.9 s before Polymarket's first fill. Whether HL was the trigger needs a set of events. |
 
 ## Layout
 ```
@@ -33,5 +33,4 @@ make test
 |---|---|
 | Kalshi | full public tape; trades older than the archive cutoff come from `/historical/trades` |
 | Polymarket | full on-chain taker tape (block time, ~1–3 s after the match) |
-| Hyperliquid | Ironflow: 24 h back without a key, 14 days with `IRONFLOW_API_KEY`. S3 archive (`hyperliquid.source = "s3"`): everything since Jul 2025, needs AWS credentials, `aws` CLI and `lz4` |
-| Polymarket US | none: trades exist only if captured live from the markets websocket |
+| Hyperliquid | Ironflow (third-party indexer): 24 h back without a key. Each pull is checked against Hyperliquid's own candles and per-wallet fills (`newsflow.verify`). S3 archive (`hyperliquid.source = "s3"`): first-party, everything since Jul 2025, carries the taker flag; needs AWS credentials, `aws` CLI and `lz4` |

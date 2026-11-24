@@ -1,7 +1,7 @@
 [project]
 name = "newsflow"
 version = "0.1.0"
-description = "Cross-venue taker tapes around news: Hyperliquid, Kalshi, Polymarket, Polymarket US"
+description = "Cross-venue taker tapes around news: Hyperliquid, Kalshi, Polymarket"
 requires-python = ">=3.11"
 dependencies = ["matplotlib", "pandas"]
 

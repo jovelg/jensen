@@ -21,7 +21,6 @@ class Event:
     hl_source: str
     kalshi: dict[str, str]       # ticker -> label
     polymarket: dict[str, str]   # event slug -> label prefix
-    pmus: dict[str, str]         # market slug -> label
     bursts: dict[str, tuple[int, float]]  # venue -> (bucket ms, min taker-buy $ per bucket)
 
 
@@ -33,6 +32,6 @@ def load(path: str | pathlib.Path) -> Event:
         tz=timezone(timedelta(hours=c["utc_offset"])),
         marks={k: ms(v) for k, v in c.get("marks", {}).items()},
         hl_coins=hl.get("coins", []), hl_source=hl.get("source", "ironflow"),
-        kalshi=c.get("kalshi", {}), polymarket=c.get("polymarket", {}), pmus=c.get("pmus", {}),
+        kalshi=c.get("kalshi", {}), polymarket=c.get("polymarket", {}),
         bursts={k: (int(v[0]), float(v[1])) for k, v in c["bursts"].items()},
     )

@@ -48,6 +48,37 @@ def candles(coin: str, start_ms: int, end_ms: int, interval: str = "1m") -> list
     return [{"t_ms": c["t"], "o": float(c["o"]), "h": float(c["h"]), "l": float(c["l"]), "c": float(c["c"]), "v": float(c["v"]), "n": c["n"]} for c in out]
 
 
+def fetch_candles(coin: str, start_ms: int, end_ms: int) -> tuple[list[dict], list[dict]]:
+    """Unmodified 1m candles from Hyperliquid itself (trade count n, base volume v, OHLC)."""
+    body = {"type": "candleSnapshot", "req": {"coin": coin, "interval": "1m", "startTime": start_ms, "endTime": end_ms - 1}}
+    return post(INFO, body), [{"url": INFO, "body": body}]
+
+
+def active_wallets(records: list[dict]) -> list[str]:
+    """Addresses in Ironflow fill records, most fills first."""
+    counts: dict[str, int] = {}
+    for f in records:
+        counts[f["address"]] = counts.get(f["address"], 0) + 1
+    return sorted(counts, key=counts.get, reverse=True)
+
+
+def fetch_user_fills(coin: str, start_ms: int, end_ms: int, wallets: list[str], want: int = 40, tries: int = 200) -> tuple[dict, list[dict]]:
+    """{address: unmodified fills for `coin`} from Hyperliquid's own userFillsByTime, which carries the
+    `crossed` (taker) flag. HL serves only each address's 10,000 most recent fills, so busy wallets come
+    back empty; this keeps asking down the list until `want` wallets have fills or `tries` are spent."""
+    out, requests = {}, []
+    for addr in wallets[:tries]:
+        body = {"type": "userFillsByTime", "user": addr, "startTime": start_ms, "endTime": end_ms}
+        requests.append({"url": INFO, "body": body})
+        fills = [f for f in post(INFO, body) if f["coin"] == coin]
+        if fills:
+            out[addr] = fills
+            if len(out) == want:
+                break
+        time.sleep(0.3)
+    return out, requests
+
+
 def fetch_ironflow(coin: str, start_ms: int, end_ms: int) -> tuple[list[dict], list[dict]]:
     """Unmodified Ironflow fill records (both legs of every trade) in the window, and the requests."""
     key = os.environ.get("IRONFLOW_API_KEY")

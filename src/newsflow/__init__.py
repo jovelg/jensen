@@ -1,1 +1,1 @@
-"""Cross-venue taker tapes around news events: Hyperliquid, Kalshi, Polymarket and Polymarket US."""
+"""Cross-venue taker tapes around news events: Hyperliquid, Kalshi and Polymarket."""
