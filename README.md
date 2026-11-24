@@ -1,6 +1,6 @@
 # news-research
 
-cross-venue taker tapes for when Jensen Huang got reinstated as the CEO of $NVDA
+cross-venue taker tapes for that time when Jensen Huang got reinstated as the CEO of $NVDA twelve days after resigning
 - tradexyz @ HL
 - kalshi
 - polymarket
