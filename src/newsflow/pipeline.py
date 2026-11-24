@@ -4,7 +4,7 @@ import pathlib
 
 import pandas as pd
 
-from . import analysis, hl, kalshi, polymarket, rawstore, verify
+from . import analysis, hl, kalshi, pascal, polymarket, rawstore, verify
 from .event import Event
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -39,6 +39,8 @@ def _sources(ev: Event):
         yield f"kalshi-{t}", "kalshi public trades", lambda t=t: kalshi.fetch(t, a, b)
     for slug in ev.polymarket:
         yield f"polymarket-{slug}", "polymarket gamma event + data-api v2 taker trades", lambda s=slug: polymarket.fetch(s, a, b)
+    for sym in ev.pascal:
+        yield f"pascal-{sym}", "pascal public trades", lambda s=sym: pascal.fetch(s, a, b)
 
 
 def fetch(ev: Event) -> None:
@@ -70,6 +72,9 @@ def tape(ev: Event) -> pd.DataFrame:
         slugs = [m["slug"] for m in data["markets"]]
         common = os.path.commonprefix(slugs) if len(slugs) > 1 else ""
         labels |= {s: f"{prefix} {s[len(common):]}".strip() for s in slugs}
+    for sym, label in ev.pascal.items():
+        rows += pascal.normalize(rawstore.read(raw, f"pascal-{sym}"))
+        labels[sym] = label
     df = pd.DataFrame(rows).sort_values("t_ms", kind="stable").reset_index(drop=True)
     df["label"] = df.market.map(labels)
     df["time"] = pd.to_datetime(df.t_ms, unit="ms", utc=True).dt.tz_convert(ev.tz)

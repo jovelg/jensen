@@ -689,6 +689,54 @@
     "bytes": 891,
     "sha256": "741d77cee981be64a01d91f37d305000738de80fee6348331de9ce12c3747808"
   },
+  "pascal-HUANG_REJOIN_BY.26DEC31.json.gz": {
+    "source": "pascal public trades",
+    "requests": [
+      {
+        "url": "https://data.pascal.trade/api/v1/trades",
+        "params": {
+          "symbols": "HUANG_REJOIN_BY.26DEC31",
+          "limit": 500
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T08:03:11+00:00",
+    "records": 0,
+    "bytes": 22,
+    "sha256": "64406e753d82e11c6bd63d1d04bb6aa083eefa0a46949bbfce994d556b989f0f"
+  },
+  "pascal-HUANG_REJOIN_BY.26NOV30.json.gz": {
+    "source": "pascal public trades",
+    "requests": [
+      {
+        "url": "https://data.pascal.trade/api/v1/trades",
+        "params": {
+          "symbols": "HUANG_REJOIN_BY.26NOV30",
+          "limit": 500
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T08:03:11+00:00",
+    "records": 0,
+    "bytes": 22,
+    "sha256": "64406e753d82e11c6bd63d1d04bb6aa083eefa0a46949bbfce994d556b989f0f"
+  },
+  "pascal-NVDA_NEXT_CEO.NOCHANGE.json.gz": {
+    "source": "pascal public trades",
+    "requests": [
+      {
+        "url": "https://data.pascal.trade/api/v1/trades",
+        "params": {
+          "symbols": "NVDA_NEXT_CEO.NOCHANGE",
+          "limit": 500
+        }
+      }
+    ],
+    "pulled_at": "2026-11-24T08:03:11+00:00",
+    "records": 4,
+    "bytes": 411,
+    "sha256": "7d1c5ea2ef2df9b61eb9e1e23879688c2be78a277002987b90c980ed0b9ebec0"
+  },
   "polymarket-jensen-huang-rejoins-nvidia-byptptpt.json.gz": {
     "source": "polymarket gamma event + data-api v2 taker trades",
     "requests": [

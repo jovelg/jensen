@@ -91,7 +91,8 @@ def chart(tape: pd.DataFrame, ev, t0: int, t1: int, bucket_ms: int = 500, annota
 
     panels = [(v, title) for v, title in (("hyperliquid", "Hyperliquid perps: long-taker $ per bar, price"),
                                           ("kalshi", "Kalshi: YES-taker $ per bar, YES price"),
-                                          ("polymarket", "Polymarket: YES-taker $ per bar, YES price (block time)")) if (tape.venue == v).any()]
+                                          ("polymarket", "Polymarket: YES-taker $ per bar, YES price (block time)"),
+                                          ("pascal", "Pascal: YES-taker $ per bar, YES price")) if (tape.venue == v).any()]
     fig, axes = plt.subplots(len(panels), 1, figsize=(15, 4.2 * len(panels)), sharex=True, squeeze=False)
     axes = axes[:, 0]
     first_hl = first_bursts(bursts_by_market(tape[tape.venue == "hyperliquid"], ev.bursts), {}).t_ms.min() if (tape.venue == "hyperliquid").any() else None
@@ -132,7 +133,7 @@ def chart(tape: pd.DataFrame, ev, t0: int, t1: int, bucket_ms: int = 500, annota
         ax.set_xlim(ts(t0), ts(t1))
     axes[-1].xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S", tz=ev.tz))
     fig.suptitle(f"{ev.title}. Red dashed: first Hyperliquid burst; dotted: " + ", ".join(ev.marks) + f". Times UTC{ev.tz.utcoffset(None).total_seconds() / 3600:+g}.", fontsize=9)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0, 1, 0.985))
     return fig
 
 
@@ -149,10 +150,10 @@ def overlay(tape: pd.DataFrame, ev, t0: int, t1: int):
     t_rel = ev.marks[release] if release else t0
     d = tape[tape.t_ms.between(t0, t1)]
     fig, (top, bot) = plt.subplots(2, 1, figsize=(17, 9), sharex=True, gridspec_kw={"height_ratios": [3, 2]})
-    style = {"kalshi": "-", "polymarket": "--"}
+    style = {"kalshi": {"ls": "-"}, "polymarket": {"ls": "--"}, "pascal": {"ls": ":", "marker": "o", "ms": 4}}
     for (venue, label), g in d[d.venue != "hyperliquid"].groupby(["venue", "label"]):
         if len(g) > 1:
-            top.step(g.time, g.price * 100, where="post", ls=style.get(venue, "-"), lw=1.3, label=label)
+            top.step(g.time, g.price * 100, where="post", lw=1.3, label=label, **style.get(venue, {}))
     top.set_ylabel("YES price (¢)")
     hl_ax = top.twinx()
     for coin, g in tape[tape.venue == "hyperliquid"].groupby("label"):
@@ -165,7 +166,7 @@ def overlay(tape: pd.DataFrame, ev, t0: int, t1: int):
     top.legend(h2 + h1, l2 + l1, fontsize=8, loc="upper left", bbox_to_anchor=(1.05, 1), borderaxespad=0, framealpha=.9)
     top.set_title("Prices: prediction-market YES (colored, left axis) vs Hyperliquid perp (black, right axis)", loc="left", fontsize=10)
 
-    colors = {"hyperliquid": "black", "kalshi": "tab:green", "polymarket": "tab:blue"}
+    colors = {"hyperliquid": "black", "kalshi": "tab:green", "polymarket": "tab:blue", "pascal": "tab:purple"}
     firsts = bursts_by_market(d, ev.bursts).groupby("venue").t_ms.min()
     for venue, g in d[d.side > 0].groupby("venue"):
         cum = g.usd.cumsum() / g.usd.sum() * 100

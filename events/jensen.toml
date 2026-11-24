@@ -24,7 +24,13 @@ source = "ironflow"              # or "s3" (requester-pays archive)
 [polymarket]                     # event slug -> label prefix; market labels add the slug suffix
 "jensen-huang-rejoins-nvidia-byptptpt" = "PM rejoin by"
 
+[pascal]                         # every Pascal market that paid YES on Jensen's return
+"NVDA_NEXT_CEO.NOCHANGE" = "Pascal next CEO = Jensen"
+"HUANG_REJOIN_BY.26NOV30" = "Pascal rejoin by Nov 30"   # mirrors the Polymarket market; no trades in the window
+"HUANG_REJOIN_BY.26DEC31" = "Pascal rejoin by Dec 31"   # mirrors the Polymarket market; no trades in the window
+
 [bursts]                         # venue = [bucket ms, min taker-buy $ per bucket]
 hyperliquid = [500, 100000]      # $ notional perp
 kalshi = [500, 5000]
 polymarket = [1000, 2000]        # block time is whole seconds; nearest-dated markets were 3-12c
+pascal = [1000, 50]              # thin: 4 trades in the whole window
