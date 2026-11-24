@@ -11,13 +11,13 @@
 - **The Hyperliquid data matches Hyperliquid's own API exactly** (section "Is the Hyperliquid data right?"). The one inferred piece, which side was the taker, agrees with Hyperliquid's own flag on 94.4% of checked fills and on 100% around the first burst.
 - **HL didn't front-run the news; it was the fastest reader of it.** Whether Kalshi's takers trade off HL or off the wire can't be told from one event: either way they were 7 s behind. Separating the two needs a set of events (see Next steps).
 
-![Taker flow on one clock, 8:55:31–8:56:31, with burst callouts](figures/2026-11-23-jensen-zoom.png)
+![Taker flow on one clock, 8:55:31–8:56:31, with burst callouts](figures/jensen-zoom.png)
 
 Each callout is one burst: size, price range, cash risked → payout at $1 (binaries), or long notional and the top wallet's share (HL). Panel titles carry the window totals. Kalshi's callouts line up with the PM Pulse chart (280K at 17–18¢, 459K at 59–66¢). Their 389K at 21–33¢ shows here as 399K at 20–33¢ because the 0.5 s buckets are cut differently.
 
-![Hyperliquid overlaid on the prediction markets, 8:55:31–8:56:31](figures/2026-11-23-jensen-overlay-zoom.png)
+![Hyperliquid overlaid on the prediction markets, 8:55:31–8:56:31](figures/jensen-overlay-zoom.png)
 
-The same window on one plot. Top: YES prices (colored, ¢) against HL `xyz:NVDA`'s % move from its last pre-release print (black). Bottom: each venue's taker buying accumulated as a % of its own window total, which compares when each venue bought regardless of size. HL leaves the floor in the release second; Kalshi's and Polymarket's first bursts come with HL already up 2.8% and 5.4%. Full window (8:54–8:58): [`figures/2026-11-23-jensen-overlay-full.png`](figures/2026-11-23-jensen-overlay-full.png).
+The same window on one plot. Top: YES prices (colored, ¢) against HL `xyz:NVDA`'s % move from its last pre-release print (black). Bottom: each venue's taker buying accumulated as a % of its own window total, which compares when each venue bought regardless of size. HL leaves the floor in the release second; Kalshi's and Polymarket's first bursts come with HL already up 2.8% and 5.4%. Full window (8:54–8:58): [`figures/jensen-overlay-full.png`](figures/jensen-overlay-full.png).
 
 ## When did the release actually go out?
 GlobeNewswire's page shows "November 23, 2026 08:55 ET". Its `og:article:published_time` and JSON-LD `datePublished` say **2026-11-23T13:55:41Z**. NVIDIA's other GlobeNewswire releases show how to read that:
@@ -44,7 +44,7 @@ Scheduled releases land exactly on :00; unscheduled ones carry the second they w
 | 8:57:54 | EDGAR 8-K accepted | +2 m 13 s |
 | 8:58:03.139 | X @nvidianewsroom | +2 m 22 s |
 
-X times are decoded from post ids, which embed the creation time in ms. GlobeNewswire returns 403 to scripted clients, so its pages were captured with a real browser. All of it is in `data/raw/2026-11-23-jensen/release-timing.json.gz`.
+X times are decoded from post ids, which embed the creation time in ms. GlobeNewswire returns 403 to scripted clients, so its pages were captured with a real browser. All of it is in `data/raw/jensen/release-timing.json.gz`.
 
 ## Timeline: first burst per market
 A burst is a bucket where YES/long taker buying reaches HL $100k per 0.5 s, Kalshi $5k per 0.5 s, or Polymarket $2k per 1 s.
@@ -99,11 +99,11 @@ The HL fills come from Ironflow, a third-party indexer, because Hyperliquid's AP
   - Kalshi `/markets/trades` (switching to `/historical/trades` before the archive cutoff);
   - Polymarket gamma event plus data API v2 taker trades.
 - **Polymarket US is excluded.** It publishes no trade tape, only about one display price a minute.
-- **One row format:** every source becomes one row per fill, taker side only. For binaries, `side` is YES exposure and `usd` is the taker's cash at risk; for HL, `usd` is notional. Rules: `src/newsflow/rows.py`, tested in `tests/`.
+- **One row format:** every source becomes one row per fill, taker side only. For binaries, `side` is YES exposure and `usd` is the taker's cash at risk; for HL, `usd` is notional. Rules: `src/newsflow/rows.py`.
 - **HL taker side:** Ironflow doesn't flag which side took liquidity. Of a trade's two legs, the one with the newer order id is treated as the taker (94.4% right; see above).
 
 ## Data and provenance
-`data/raw/2026-11-23-jensen/` holds every pull as gzipped JSON, records unmodified. `manifest.json` lists each file's source, requests, pull time, record count and sha256. Processed tables are in `data/processed/2026-11-23-jensen/`.
+`data/raw/jensen/` holds every pull as gzipped JSON, records unmodified. `manifest.json` lists each file's source, requests, pull time, record count and sha256. Processed tables are in `data/processed/jensen/`.
 
 ## Limitations
 - **Polymarket timestamps** are block times, which land ~1–3 s after the off-chain match.
@@ -124,5 +124,4 @@ Needed: Hyperliquid history further back than 24 h. Hyperliquid's S3 archive cov
 ## Reproduce
 ```sh
 make all        # fetch (skips existing raw files) -> process -> figures -> re-run notebooks
-make test
 ```

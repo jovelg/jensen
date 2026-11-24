@@ -18,7 +18,6 @@ data/raw/<event>/    source pulls, records unmodified (gzipped JSON) + manifest.
 data/processed/      normalized tape and burst tables (CSV)
 notebooks/           numbered evidence notebooks; outputs are committed so GitHub renders them
 reports/             written findings; reports/figures/ holds their charts
-tests/               normalization and paging rules
 ```
 
 ## reproduce
@@ -27,7 +26,6 @@ needs [uv](https://docs.astral.sh/uv/). dependencies pinned in `uv.lock`.
 ```sh
 make all                                    # fetch -> process -> figures -> notebooks
 make all EVENT=events/<name>.toml           # another event
-make test
 ```
 
 `make data` never refetches an existing raw file; delete one to force it. Venue data limits:
